@@ -1,0 +1,10 @@
+language: c
+compiler:
+  - gcc
+script:
+  - cd ground-station && ./build.sh
+env:
+  - DEBUG=true ARDUINO_IDE_VERSION=1.0.6 FILE_EXT=tgz MAKEFILE_VERSION=1.3.4
+  - DEBUG=true ARDUINO_IDE_VERSION=1.6.4 FILE_EXT=tar.xz MAKEFILE_VERSION=1.5
+  - DEBUG=false ARDUINO_IDE_VERSION=1.0.6 FILE_EXT=tgz MAKEFILE_VERSION=1.3.4
+  - DEBUG=false ARDUINO_IDE_VERSION=1.6.4 FILE_EXT=tar.xz MAKEFILE_VERSION=1.5
