@@ -47,7 +47,7 @@ then
     echo 'BOARD_SUB = atmega328' >> Makefile
     echo "CPPFLAGS = -DDEBUG=$DEBUG" >> Makefile
     echo 'USER_LIB_PATH := $(realpath $(PROJECT_DIR)/lib)' >> Makefile
-    echo 'ARDUINO_LIBS = SoftwareSerial Metro TinyGPSPlus' >> Makefile
+    echo 'ARDUINO_LIBS = SoftwareSerial Wire Metro TinyGPSPlus HMC5883L' >> Makefile
     echo 'MONITOR_PORT = /dev/cu.wc*' >> Makefile
     echo "include $ARDMK_DIR/Arduino.mk" >> Makefile
 fi
