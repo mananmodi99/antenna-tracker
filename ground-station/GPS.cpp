@@ -5,35 +5,61 @@
 
 GPS::GPS() {
   serialPort = new SoftwareSerial(GPS_RX, GPS_TX);
-  //serialPort->begin(38400);
   serialPort->begin(9600);
-  step = 0;
 }
 
-void GPS::read() { 
-  int bytesAvailable = serialPort->available();
-  for (int i=0; i<bytesAvailable; i++) {
-    byte data = serialPort->read();
-    
-    switch (step) {
-      case 0:
-        DEBUG_PRINTLN(data);
-        if (data == 0xB5) {
-          step++;
-          DEBUG_PRINTLN("JEIII");
-        }
-        break;
-       case 1:
-         if (data == 0x62) {
-           step++;
-         }
-         else {
-           step = 0;
-         }
-         break;
-       case 2:
-         ubxClass = data;
-         step++;
-    }
+void GPS::tick() {
+  while (serialPort->available()) {
+    gpsPlus.encode(serialPort->read());
   }
+  
+  
+  Serial.print(F("Location: ")); 
+  if (gpsPlus.location.isValid())
+  {
+    Serial.print(gpsPlus.location.lat(), 6);
+    Serial.print(F(","));
+    Serial.print(gpsPlus.location.lng(), 6);
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.print(F("  Date/Time: "));
+  if (gpsPlus.date.isValid())
+  {
+    Serial.print(gpsPlus.date.month());
+    Serial.print(F("/"));
+    Serial.print(gpsPlus.date.day());
+    Serial.print(F("/"));
+    Serial.print(gpsPlus.date.year());
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.print(F(" "));
+  if (gpsPlus.time.isValid())
+  {
+    if (gpsPlus.time.hour() < 10) Serial.print(F("0"));
+    Serial.print(gpsPlus.time.hour());
+    Serial.print(F(":"));
+    if (gpsPlus.time.minute() < 10) Serial.print(F("0"));
+    Serial.print(gpsPlus.time.minute());
+    Serial.print(F(":"));
+    if (gpsPlus.time.second() < 10) Serial.print(F("0"));
+    Serial.print(gpsPlus.time.second());
+    Serial.print(F("."));
+    if (gpsPlus.time.centisecond() < 10) Serial.print(F("0"));
+    Serial.print(gpsPlus.time.centisecond());
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  Serial.println();
 }
+

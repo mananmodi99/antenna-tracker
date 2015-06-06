@@ -2,18 +2,18 @@
 #define GPS_H
 
 #include <Arduino.h>
+#include <TinyGPS++.h>
 
 class SoftwareSerial;
 
 class GPS {
 public:
   GPS();
-  void read();
+  void tick();
 
 private:
   SoftwareSerial *serialPort;
-  byte step;
-  uint8_t ubxClass;
+  TinyGPSPlus gpsPlus;
 };
 
 #endif

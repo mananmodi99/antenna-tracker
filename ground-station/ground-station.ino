@@ -1,9 +1,12 @@
 #include "GPS.h"
 #include "Configuration.h"
 
+#include <Metro.h>
 #include <SoftwareSerial.h>
 
 GPS *gps;
+
+Metro loop50hz = Metro(20); // 50hz loop
 
 void setup() {
   Serial.begin(9600);
@@ -12,5 +15,7 @@ void setup() {
 }
 
 void loop() {
-  gps->read();
+  if (loop50hz.check()) {
+    gps->tick();
+  }
 }
