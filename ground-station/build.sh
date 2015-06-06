@@ -11,7 +11,7 @@ then
 else
     PLATFORM='linux64'
     FILE_EXT='tar.xz'
-    ARDUINO_DIR='arduino-$ARDUINO_IDE_VERSION'
+    ARDUINO_DIR="arduino-$ARDUINO_IDE_VERSION"
 fi
 
 ARDUINO_FILE=arduino-${ARDUINO_IDE_VERSION}-$PLATFORM.$FILE_EXT
