@@ -14,7 +14,10 @@ void GPS::tick() {
   }
   
   
-  Serial.print(F("Location: ")); 
+  Serial.print(F("Satellites: "));
+  Serial.print(gpsPlus.satellites.value());
+  
+  Serial.print(F("  Location: ")); 
   if (gpsPlus.location.isValid())
   {
     Serial.print(gpsPlus.location.lat(), 6);
