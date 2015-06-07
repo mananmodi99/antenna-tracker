@@ -10,6 +10,8 @@ class GPS {
 public:
   GPS();
   void tick();
+  boolean haveFix();
+  byte numberOfSatellites();
 
 private:
   SoftwareSerial *serialPort;
