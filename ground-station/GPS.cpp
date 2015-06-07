@@ -75,3 +75,7 @@ boolean GPS::haveFix() {
 byte GPS::numberOfSatellites() {
   return gpsPlus.satellites.value();
 }
+
+double GPS::distanceTo(double latitude, double longitude) {
+  return TinyGPSPlus::distanceBetween(latitude, longitude, gpsPlus.location.lat(), gpsPlus.location.lng());
+}

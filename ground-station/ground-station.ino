@@ -2,6 +2,7 @@
 #include "Configuration.h"
 #include "Compass.h"
 #include "Display.h"
+#include "Receiver.h"
 
 enum State {
   INIT_GPS,
@@ -14,6 +15,8 @@ enum State {
 GPS *gps;
 Compass *compass;
 Display *display;
+Receiver *receiver;
+
 State state = INIT_GPS;
 
 Metro loop50hz = Metro(20); // 50hz loop
@@ -24,6 +27,7 @@ void setup() {
   gps = new GPS();
   compass = new Compass();
   display = new Display();
+  receiver = new Receiver();
 }
 
 void loop() {
@@ -39,7 +43,8 @@ void loop() {
         }
         break;
       case RUNNING:
-        display->showStatus(gps->numberOfSatellites());
+        double distance = gps->distanceTo(receiver->latitude(), receiver->longitude());
+        display->showStatus(gps->numberOfSatellites(), distance);
         break;
     }
   }

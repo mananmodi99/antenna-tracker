@@ -12,6 +12,7 @@ public:
   void tick();
   boolean haveFix();
   byte numberOfSatellites();
+  double distanceTo(double latitude, double longitude);
 
 private:
   SoftwareSerial *serialPort;

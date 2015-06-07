@@ -12,11 +12,12 @@ class Display {
 public:
   Display();
   void showWaitingForGPS(byte satellites);
-  void showStatus(byte satellites);
+  void showStatus(byte satellites, double dist);
 
 private:
   Mode mode;
   byte numberOfSatellites;
+  double distance;
 };
 
 #endif
