@@ -3,6 +3,7 @@ compiler:
   - gcc
 script:
   - cd ground-station && ./build.sh
+  - cd beacon && ./build.sh
 env:
   - DEBUG=true
   - DEBUG=false
