@@ -1,3 +1,4 @@
 ground-station/Arduino*
+beacon/Arduino*
 build-*
 Makefile
