@@ -2,8 +2,8 @@ language: c
 compiler:
   - gcc
 script:
-  - cd ground-station && ./build.sh
-  - cd "$TRAVIS_BUILD_DIR" && cd beacon && ./build.sh
+  - ./build.sh beacon
+  - ./build.sh ground-station
 env:
   - DEBUG=true
   - DEBUG=false

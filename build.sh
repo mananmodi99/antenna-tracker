@@ -3,6 +3,14 @@
 ARDUINO_IDE_VERSION=1.6.4
 MAKEFILE_VERSION=1.5
 
+if [ ! $1 ]
+then
+  echo "Please specify project dir"
+  exit -1
+fi
+
+PROJECT_DIR="$1"
+
 if [ $(uname) == 'Darwin' ]
 then
     PLATFORM='macosx'
@@ -39,17 +47,20 @@ then
     rm -f $FILE
 fi
 
+cd "$PROJECT_DIR"
+source BuildSettings
+
 if [ ! -e "Makefile" ]
 then
     echo 'PROJECT_DIR = $(shell pwd)' >> Makefile
-    echo "ARDUINO_DIR = $ARDUINO_DIR" >> Makefile
+    echo "ARDUINO_DIR = ../$ARDUINO_DIR" >> Makefile
     echo 'BOARD_TAG = nano' >> Makefile
     echo 'BOARD_SUB = atmega328' >> Makefile
     echo "CPPFLAGS = -DDEBUG=$DEBUG" >> Makefile
     echo 'USER_LIB_PATH := $(realpath $(PROJECT_DIR)/../lib)' >> Makefile
-    echo 'ARDUINO_LIBS = SoftwareSerial Metro TinyGPSPlus' >> Makefile
+    echo "ARDUINO_LIBS = $ARDUINO_LIBS" >> Makefile
     echo 'MONITOR_PORT = /dev/cu.wc*' >> Makefile
-    echo "include $ARDMK_DIR/Arduino.mk" >> Makefile
+    echo "include ../$ARDMK_DIR/Arduino.mk" >> Makefile
 fi
 
 make DEBUG=$DEBUG
