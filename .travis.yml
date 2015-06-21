@@ -3,7 +3,7 @@ compiler:
   - gcc
 script:
   - cd ground-station && ./build.sh
-  - cd beacon && ./build.sh
+  - cd "$TRAVIS_BUILD_DIR" && cd beacon && ./build.sh
 env:
   - DEBUG=true
   - DEBUG=false
