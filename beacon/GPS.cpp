@@ -11,6 +11,7 @@ GPS::GPS() {
 }
 
 void GPS::tick() {
+  serialPort->listen();
   while (serialPort->available()) {
     gpsPlus.encode(serialPort->read());
   }

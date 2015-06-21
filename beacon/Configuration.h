@@ -1,4 +1,6 @@
 
+#define LORA_RX 9
+#define LORA_TX 10
 #define GPS_RX 11
 #define GPS_TX 12
 
