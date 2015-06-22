@@ -35,9 +35,10 @@ void initGPS() {
 
 void announceLocation() {
   DEBUG_PRINT("Location: ");
-  DEBUG_PRINT(gps->latitude());
+  DEBUG_PRINTF(gps->latitude(), 6);
   DEBUG_PRINT(", ");
-  DEBUG_PRINTLN(gps->longitude());
+  DEBUG_PRINTF(gps->longitude(), 6);
+  DEBUG_PRINTLN("");
   
   String message = "L:";
   message += String(gps->latitude(), 6);
