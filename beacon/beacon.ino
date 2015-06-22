@@ -44,6 +44,8 @@ void announceLocation() {
   message += ";";
   message += gps->longitude();
   message += ";";
+  message += gps->altitude();
+  message += ";";
   message += gps->numberOfSatellites();
   
   transmitter->sendMessage(message);

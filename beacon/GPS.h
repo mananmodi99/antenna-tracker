@@ -14,6 +14,7 @@ public:
   byte numberOfSatellites();
   double latitude();
   double longitude();
+  long altitude();
 
 private:
   SoftwareSerial *serialPort;

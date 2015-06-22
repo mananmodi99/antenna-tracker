@@ -33,3 +33,7 @@ double GPS::longitude() {
   return gpsPlus.location.lng();
 }
 
+long GPS::altitude() {
+  return gpsPlus.altitude.value();
+}
+
