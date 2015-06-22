@@ -3,7 +3,7 @@
 
 #include <SoftwareSerial.h>
 
-#define MIN_NUMBER_OF_SATELLITES 4
+#define MIN_NUMBER_OF_SATELLITES 7
 
 GPS::GPS() {
   serialPort = new SoftwareSerial(GPS_RX, GPS_TX);

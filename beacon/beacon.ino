@@ -40,9 +40,9 @@ void announceLocation() {
   DEBUG_PRINTLN(gps->longitude());
   
   String message = "L:";
-  message += gps->latitude();
+  message += String(gps->latitude(), 7);
   message += ";";
-  message += gps->longitude();
+  message += String(gps->longitude(), 7);
   message += ";";
   message += gps->altitude();
   message += ";";
