@@ -1,1 +1,1 @@
-ARDUINO_LIBS="SoftwareSerial Wire Metro TinyGPSPlus HMC5883L"
+ARDUINO_LIBS="SoftwareSerial Wire Metro TinyGPSPlus HMC5883L Common"

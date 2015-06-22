@@ -1,1 +1,1 @@
-ARDUINO_LIBS="SoftwareSerial Metro TinyGPSPlus"
+ARDUINO_LIBS="SoftwareSerial Metro TinyGPSPlus Common"
