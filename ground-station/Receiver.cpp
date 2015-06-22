@@ -12,17 +12,44 @@ Receiver::Receiver() {
 
 void Receiver::tick() {
   char* message = lora->getMessage();
-  if (message != NULL) {
-    Serial.println(message);
+  if (message == NULL) {
+    return;
   }
+  
+  DEBUG_PRINTLN(message);
+  String rawMessage = String(message);
+  int pos = rawMessage.indexOf(':');
+  String token = rawMessage.substring(0, pos);
+  
+  if (token != "L") {
+    return;
+  }
+  
+  pos++;
+  int pos2 = rawMessage.indexOf(':', pos);
+  token = rawMessage.substring(pos, pos2);
+  lastLatitude = atof(token.c_str());
+
+  pos = pos2 + 1;
+  pos2 = rawMessage.indexOf(':', pos);
+  token = rawMessage.substring(pos, pos2);
+  lastLongitude = atof(token.c_str());
+  
+  pos = pos2 + 1;
+  pos2 = rawMessage.indexOf(':', pos);
+  token = rawMessage.substring(pos, pos2);
+  lastAltitude = atoi(token.c_str());
+  
+  pos = pos2 + 1;
+  pos2 = rawMessage.indexOf(':', pos);
+  token = rawMessage.substring(pos, pos2);
+  lastSeenSatellites = atoi(token.c_str());
 }
 
 double Receiver::latitude() {
-  //return 59.437222;
-  return 58.383333;
+  return lastLatitude;
 }
 
 double Receiver::longitude() {
-  //return 24.745278;
-  return 26.716667;
+  return lastLongitude;
 }

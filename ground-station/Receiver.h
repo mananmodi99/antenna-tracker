@@ -14,6 +14,10 @@ public:
 
 private:
   BufferedSerial *lora;
+  double lastLatitude;
+  double lastLongitude;
+  int lastAltitude;
+  int lastSeenSatellites;
 };
 
 #endif
