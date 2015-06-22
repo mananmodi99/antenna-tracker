@@ -40,12 +40,12 @@ void announceLocation() {
   DEBUG_PRINTLN(gps->longitude());
   
   String message = "L:";
-  message += String(gps->latitude(), 7);
-  message += ";";
-  message += String(gps->longitude(), 7);
-  message += ";";
+  message += String(gps->latitude(), 6);
+  message += "|";
+  message += String(gps->longitude(), 6);
+  message += "|";
   message += gps->altitude();
-  message += ";";
+  message += "|";
   message += gps->numberOfSatellites();
   
   transmitter->sendMessage(message);
