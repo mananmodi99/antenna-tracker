@@ -1,7 +1,20 @@
 #include "Receiver.h"
+#include "BufferedSerial.h"
 #include "Configuration.h"
 
+#include <SoftwareSerial.h>
+
 Receiver::Receiver() {
+  SoftwareSerial *serialPort = new SoftwareSerial(LORA_RX, LORA_TX);
+  lora = new BufferedSerial(serialPort);
+  serialPort->begin(9600);
+}
+
+void Receiver::tick() {
+  char* message = lora->getMessage();
+  if (message != NULL) {
+    Serial.println(message);
+  }
 }
 
 double Receiver::latitude() {

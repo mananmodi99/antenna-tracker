@@ -20,6 +20,8 @@ Receiver *receiver;
 State state = INIT_GPS;
 
 Metro loop50hz = Metro(20); // 50hz loop
+Metro gpsLoop = Metro(250); // 10hz loop
+Metro receiverLoop = Metro(32);
 
 void setup() {
   Serial.begin(9600);
@@ -31,8 +33,15 @@ void setup() {
 }
 
 void loop() {
+  
+  if (gpsLoop.check()) {
+    //gps->tick();
+  }
+  if (receiverLoop.check()) {
+    receiver->tick();
+  }
+  
   if (loop50hz.check()) {
-    gps->tick();
     //compass->tick();
     
     switch (state) {
