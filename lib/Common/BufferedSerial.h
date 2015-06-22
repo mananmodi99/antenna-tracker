@@ -9,10 +9,12 @@ class BufferedSerial {
 public:
   BufferedSerial(SoftwareSerial *serial);
   char* getMessage();
-  void sendMessage(char *message);
+  void sendMessage(const char *message);
   void sendMessage(String &message);
 
 private:
+  char checksum(const char *message);
+
   SoftwareSerial *serial;
   char data[30];
   byte index;

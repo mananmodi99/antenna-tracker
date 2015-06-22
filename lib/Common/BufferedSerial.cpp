@@ -35,18 +35,34 @@ char* BufferedSerial::getMessage() {
     return NULL;
   }
   
-  data[index] = '\0';
+  char receivedChecksum = data[index-1];
+  data[index-1] = '\0';
+
+  char calculatedChecksum = checksum(data);
+
+  if (receivedChecksum != calculatedChecksum) {
+    return NULL;
+  }
   
   return data;
 }
 
-void BufferedSerial::sendMessage(char *message) {
+void BufferedSerial::sendMessage(const char *message) {
   serial->print(message);
+  serial->print(checksum(message));
   serial->print(MESSAGE_END);
 }
 
 void BufferedSerial::sendMessage(String &message) {
-  serial->print(message);
-  serial->print(MESSAGE_END);
+  sendMessage(message.c_str());
+}
+
+char BufferedSerial::checksum(const char *message) {
+  int length = strlen(message);
+  char checksum = 0;
+  for (int i=0; i<length; i++) {
+    checksum ^= message[i];
+  }
+  return checksum;
 }
 
