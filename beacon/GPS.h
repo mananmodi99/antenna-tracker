@@ -8,7 +8,7 @@ class SoftwareSerial;
 
 class GPS {
 public:
-  GPS();
+  GPS(int rxPin, int txPin);
   void tick();
   boolean haveFix();
   byte numberOfSatellites();

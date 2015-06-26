@@ -22,8 +22,8 @@ Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
   Serial.begin(9600);
-  gps = new GPS();
-  transmitter = new Transmitter();
+  gps = new GPS(GPS_RX, GPS_TX);
+  transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
   led->statusWaiting();
 }

@@ -1,11 +1,10 @@
 #include "Transmitter.h"
 #include "BufferedSerial.h"
-#include "Configuration.h"
 
 #include <SoftwareSerial.h>
 
-Transmitter::Transmitter() {
-  SoftwareSerial *softwareSerial = new SoftwareSerial(LORA_RX, LORA_TX);
+Transmitter::Transmitter(int rxPin, int txPin) {
+  SoftwareSerial *softwareSerial = new SoftwareSerial(rxPin, txPin);
   softwareSerial->begin(9600);
   serialPort = new BufferedSerial(softwareSerial);
 }

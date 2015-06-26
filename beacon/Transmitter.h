@@ -7,7 +7,7 @@ class BufferedSerial;
 
 class Transmitter {
 public:
-  Transmitter();
+  Transmitter(int rxPin, int txPin);
   void sendMessage(char *message);
   void sendMessage(String &message);
 
