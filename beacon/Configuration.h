@@ -3,6 +3,7 @@
 #define LORA_TX 10
 #define GPS_RX 11
 #define GPS_TX 12
+#define LED_PIN 13
 
 
 #ifndef DEBUG

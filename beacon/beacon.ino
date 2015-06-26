@@ -1,5 +1,6 @@
 #include "GPS.h"
 #include "Transmitter.h"
+#include "LED.h"
 #include "Configuration.h"
 
 #include <Metro.h>
@@ -11,16 +12,20 @@ enum State {
 
 GPS *gps;
 Transmitter * transmitter;
+LED *led;
 State state = INIT_GPS;
 
 Metro loop1hz = Metro(1000); // 1hz loop
 Metro announceLoop = Metro(500); // 2hz loop
-Metro loop50hz = Metro(20); // 50hz loop
+Metro gpsLoop = Metro(20); // 50hz loop
+Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
   Serial.begin(9600);
   gps = new GPS();
   transmitter = new Transmitter();
+  led = new LED(LED_PIN);
+  led->statusWaiting();
 }
 
 void initGPS() { 
@@ -30,6 +35,7 @@ void initGPS() {
   
   if (gps->haveFix()) {
     state = RUNNING;
+    led->statusRunning();
   }
 }
 
@@ -54,8 +60,12 @@ void announceLocation() {
 
 void loop() {
   
-  if (loop50hz.check()) {
+  if (gpsLoop.check()) {
     gps->tick();
+  }
+  
+  if (ledLoop.check()) {
+    led->tick();
   }
   
   switch (state) {
