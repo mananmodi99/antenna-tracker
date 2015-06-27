@@ -3,6 +3,13 @@
 
 Arduino antenna tracker.
 
+## Transmitter
+
+### Status LED
+* Rapid blinking - acquiring GPS fix
+* Slow blinking - have GPS fix
+* Solid - no GPS module connected
+
 ## Used Libraries
 HMC5883L: https://github.com/jarzebski/Arduino-HMC5883L
 
