@@ -7,6 +7,9 @@
 #endif
 #include "Metro.h"
 
+// Added by Siim Raud
+#define NOCATCH-UP
+
 Metro::Metro()
 {
 	
