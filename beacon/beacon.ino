@@ -6,6 +6,8 @@
 
 #include <Metro.h>
 
+#define GPS_CONNECTION_TIMEOUT 3000
+
 GPS *gps;
 Transmitter * transmitter;
 LED *led;
@@ -24,11 +26,17 @@ void setup() {
 }
 
 void initGPS() { 
-  DEBUG_PRINT("Waiting for GPS fix, satellites: ");
-  DEBUG_PRINTLN(gps->numberOfSatellites());
-  transmitter->sendMessage("WAITGPS");
   
-  if (gps->haveFix()) {
+  if (gps->isConnected()) {
+    DEBUG_PRINT("Waiting for GPS fix, satellites: ");
+    DEBUG_PRINTLN(gps->numberOfSatellites());
+    transmitter->sendMessage("WAITGPS");
+  }
+  
+  if (!gps->isConnected() && millis() > GPS_CONNECTION_TIMEOUT) {
+    state = NO_GPS;
+  }
+  else if (gps->haveFix()) {
     state = RUNNING;
   }
 }
@@ -52,6 +60,11 @@ void announceLocation() {
   transmitter->sendMessage(message);
 }
 
+void announceNoGPS() {
+  DEBUG_PRINTLN("No GPS connected");
+  transmitter->sendMessage("NOGPSCONNECTED");
+}
+
 void loop() {
   
   if (gpsLoop.check()) {
@@ -63,16 +76,21 @@ void loop() {
   }
   
   switch (state) {
+    case NO_GPS:
+      if (announceLoop.check()) {
+        announceNoGPS();
+      }
+    
     case INIT_GPS:
       if (loop1hz.check()) {
         initGPS();
       }
-    break;
+      break;
     
     case RUNNING:
       if (announceLoop.check()) {
         announceLocation();
       }
-    break;
+      break;
   }
 }

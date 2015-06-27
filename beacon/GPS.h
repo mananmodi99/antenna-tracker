@@ -10,6 +10,7 @@ class GPS {
 public:
   GPS(int rxPin, int txPin);
   void tick();
+  boolean isConnected();
   boolean haveFix();
   byte numberOfSatellites();
   double latitude();
@@ -19,6 +20,7 @@ public:
 private:
   SoftwareSerial *serialPort;
   TinyGPSPlus gpsPlus;
+  boolean connected;
 };
 
 #endif

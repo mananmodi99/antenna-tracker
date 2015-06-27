@@ -7,13 +7,19 @@
 GPS::GPS(int rxPin, int txPin) {
   serialPort = new SoftwareSerial(rxPin, txPin);
   serialPort->begin(9600);
+  connected = false;
 }
 
 void GPS::tick() {
   serialPort->listen();
   while (serialPort->available()) {
+    connected = true;
     gpsPlus.encode(serialPort->read());
   }
+}
+
+boolean GPS::isConnected() {
+  return connected;
 }
 
 boolean GPS::haveFix() {
