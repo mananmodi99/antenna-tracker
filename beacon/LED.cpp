@@ -1,4 +1,5 @@
 #include "LED.h"
+#include "State.h"
 
 #define WAITING_INTERVAL 50
 #define WAITING_HIGH_TIME 50
@@ -8,12 +9,11 @@ LED::LED(int p) {
   pin = p;
   pinMode(pin, OUTPUT);
   high = false;
-  running = false;
   changeTime = millis();
 }
 
 void LED::tick() {
-  if (running) {
+  if (state == RUNNING) {
     if (high) {
       if (millis() - changeTime >= WAITING_HIGH_TIME) {
         high = false;
@@ -38,10 +38,3 @@ void LED::tick() {
   }
 }
 
-void LED::statusWaiting() {
-  running = false;
-}
-
-void LED::statusRunning() {
-  running = true;
-}

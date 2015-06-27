@@ -2,13 +2,9 @@
 #include "Transmitter.h"
 #include "LED.h"
 #include "Configuration.h"
+#include "State.h"
 
 #include <Metro.h>
-
-enum State {
-  INIT_GPS,
-  RUNNING
-};
 
 GPS *gps;
 Transmitter * transmitter;
@@ -25,7 +21,6 @@ void setup() {
   gps = new GPS(GPS_RX, GPS_TX);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
-  led->statusWaiting();
 }
 
 void initGPS() { 
@@ -35,7 +30,6 @@ void initGPS() {
   
   if (gps->haveFix()) {
     state = RUNNING;
-    led->statusRunning();
   }
 }
 
