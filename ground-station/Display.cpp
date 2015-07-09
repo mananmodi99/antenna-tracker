@@ -1,9 +1,13 @@
 #include "Display.h"
 #include "Configuration.h"
 
+#include <LiquidCrystal.h>
+
 Display::Display() {
   numberOfSatellites = 0;
   distance = 0;
+  lcd = new LiquidCrystal(12, 11, 5, 4, 3, 2);
+  lcd->begin(20, 4);
 }
 
 void Display::showWaitingForGPS(byte satellites) {
@@ -40,4 +44,20 @@ void Display::showStatus(byte satellites, double dist) {
     DEBUG_PRINT((int)distance);
     DEBUG_PRINTLN(" m");
   }
+}
+
+void Display::showLocation(double latitude, double longitude) {
+  DEBUG_PRINT("Lat:");
+  DEBUG_PRINT(latitude);
+  DEBUG_PRINT(", lng:");
+  DEBUG_PRINTLN(longitude);
+  
+  lcd->setCursor(0, 0);
+  
+  lcd->print("Lat: ");
+  lcd->print(String(latitude, 6));
+  
+  lcd->setCursor(0, 1);
+  lcd->print("Lng: ");
+  lcd->print(String(longitude, 6));
 }

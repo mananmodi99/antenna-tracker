@@ -7,6 +7,8 @@
 Receiver::Receiver() {
   LORA_SERIAL.begin(9600);
   lora = new BufferedSerial(&LORA_SERIAL);
+  lastLatitude = -1;
+  lastLongitude = -1;
 }
 
 void Receiver::tick() {
