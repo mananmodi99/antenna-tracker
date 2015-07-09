@@ -1,1 +1,3 @@
 ARDUINO_LIBS="SoftwareSerial Metro TinyGPSPlus Common"
+BOARD_TAG=nano
+BOARD_SUB=atmega328
