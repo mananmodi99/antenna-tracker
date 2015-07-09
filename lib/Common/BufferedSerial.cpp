@@ -1,34 +1,29 @@
 #include "BufferedSerial.h"
 
 #include <SoftwareSerial.h>
+#include <HardwareSerial.h>
 
 #define MESSAGE_END '\n'
 
 #include <Arduino.h>
 
-BufferedSerial::BufferedSerial(SoftwareSerial *s) {
-  serial = s;
+BufferedSerial::BufferedSerial(SoftwareSerial *serial) {
+  softwareSerial = serial;
+  hardwareSerial = NULL;
+}
+
+BufferedSerial::BufferedSerial(HardwareSerial *serial) {
+    hardwareSerial = serial;
+    softwareSerial = NULL;
 }
 
 char* BufferedSerial::getMessage() {
   
-  index = 0;
-  boolean expecting = false;
-  
-  serial->listen();
-  while (serial->available() || expecting) {
-    if (!serial->available()) {
-      continue;
-    }
-    
-    char c = serial->read();
-    if (c == MESSAGE_END) {
-      break;
-    }
-
-    data[index] = c;
-    index++;
-    expecting = true;
+  if (hardwareSerial != NULL) {
+    readHardwareSerial();
+  }
+  else {
+    readSoftwareSerial();
   }
   
   if (index == 0) {
@@ -48,13 +43,63 @@ char* BufferedSerial::getMessage() {
 }
 
 void BufferedSerial::sendMessage(const char *message) {
-  serial->print(message);
-  serial->print(checksum(message));
-  serial->print(MESSAGE_END);
+  if (softwareSerial != NULL) {
+    softwareSerial->print(message);
+    softwareSerial->print(checksum(message));
+    softwareSerial->print(MESSAGE_END);
+  }
+  else {
+    hardwareSerial->print(message);
+    hardwareSerial->print(checksum(message));
+    hardwareSerial->print(MESSAGE_END);
+  }
 }
 
 void BufferedSerial::sendMessage(String &message) {
   sendMessage(message.c_str());
+}
+
+void BufferedSerial::readSoftwareSerial() {
+
+  index = 0;
+  boolean expecting = false;
+    
+  softwareSerial->listen();
+  while (softwareSerial->available() || expecting) {
+    if (!softwareSerial->available()) {
+      continue;
+    }
+        
+    char c = softwareSerial->read();
+    if (c == MESSAGE_END) {
+      break;
+    }
+        
+    data[index] = c;
+    index++;
+    expecting = true;
+  }
+}
+
+void BufferedSerial::readHardwareSerial() {
+
+  index = 0;
+  boolean expecting = false;
+
+  while (hardwareSerial->available() || expecting) {
+    if (!hardwareSerial->available()) {
+      continue;
+    }
+        
+    char c = hardwareSerial->read();
+    if (c == MESSAGE_END) {
+      break;
+    }
+        
+    data[index] = c;
+    index++;
+    expecting = true;
+  }
 }
 
 char BufferedSerial::checksum(const char *message) {
