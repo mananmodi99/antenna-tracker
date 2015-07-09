@@ -1,3 +1,3 @@
-ARDUINO_LIBS="SoftwareSerial Wire Metro TinyGPSPlus HMC5883L Common"
+ARDUINO_LIBS="SoftwareSerial Wire LiquidCrystal Metro TinyGPSPlus HMC5883L Common"
 BOARD_TAG=mega
 BOARD_SUB=atmega2560
