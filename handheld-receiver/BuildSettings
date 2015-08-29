@@ -1,0 +1,3 @@
+ARDUINO_LIBS="SoftwareSerial Metro Common"
+BOARD_TAG=uno
+BOARD_SUB=atmega328

@@ -4,6 +4,7 @@ compiler:
 script:
   - ./build.sh beacon
   - ./build.sh ground-station
+  - ./build.sh handheld-receiver
 env:
   - DEBUG=true
   - DEBUG=false
