@@ -21,7 +21,7 @@ private:
 
   SoftwareSerial *softwareSerial;
   HardwareSerial *hardwareSerial;
-  char data[30];
+  char data[50];
   byte index;
 };
 
