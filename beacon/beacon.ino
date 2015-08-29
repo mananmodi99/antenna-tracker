@@ -30,7 +30,7 @@ void initGPS() {
   if (gps->isConnected()) {
     DEBUG_PRINT("Waiting for GPS fix, satellites: ");
     DEBUG_PRINTLN(gps->numberOfSatellites());
-    transmitter->sendMessage("WAITGPS");
+    transmitter->sendMessage(String("WAITGPS:") + gps->numberOfSatellites());
   }
   
   if (!gps->isConnected() && millis() > GPS_CONNECTION_TIMEOUT) {
