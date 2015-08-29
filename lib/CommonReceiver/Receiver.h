@@ -11,6 +11,8 @@ public:
   void tick();
   double latitude();
   double longitude();
+  String lastMessage();
+  long lastMessageNumber();
 
 private:
   BufferedSerial *lora;
@@ -18,6 +20,8 @@ private:
   double lastLongitude;
   int lastAltitude;
   int lastSeenSatellites;
+  String _lastMessage;
+  long _lastMessageNumber;
 };
 
 #endif

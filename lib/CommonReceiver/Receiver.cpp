@@ -16,7 +16,14 @@ void Receiver::tick() {
   }
   
   String rawMessage = String(message);
-  int pos = rawMessage.indexOf(':');
+  int pos = rawMessage.indexOf('|');
+  String number = rawMessage.substring(pos+1);
+  _lastMessageNumber = atol(number.c_str());
+
+  rawMessage = rawMessage.substring(0, pos);
+    
+  _lastMessage = rawMessage;
+  pos = rawMessage.indexOf(':');
   String token = rawMessage.substring(0, pos);
   
   if (token != "L") {
@@ -50,4 +57,12 @@ double Receiver::latitude() {
 
 double Receiver::longitude() {
   return lastLongitude;
+}
+
+String Receiver::lastMessage() {
+  return _lastMessage;
+}
+
+long Receiver::lastMessageNumber() {
+  return _lastMessageNumber;
 }

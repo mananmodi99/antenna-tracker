@@ -13,6 +13,7 @@ public:
 
 private:
   BufferedSerial *serialPort;
+  long messageNumber;
 };
 
 #endif

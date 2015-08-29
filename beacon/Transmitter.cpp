@@ -7,13 +7,16 @@ Transmitter::Transmitter(int rxPin, int txPin) {
   SoftwareSerial *softwareSerial = new SoftwareSerial(rxPin, txPin);
   softwareSerial->begin(9600);
   serialPort = new BufferedSerial(softwareSerial);
+  messageNumber = 1;
 }
 
 void Transmitter::sendMessage(char *message) {
-  serialPort->sendMessage(message);
+  String stringMessage = String(message);
+  this->sendMessage(stringMessage);
 }
 
 void Transmitter::sendMessage(String &message) {
-  serialPort->sendMessage(message);
+  serialPort->sendMessage(message + "|" + messageNumber);
+  messageNumber++;
 }
 
