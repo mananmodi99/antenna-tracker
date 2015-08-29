@@ -3,6 +3,7 @@
 #include "Compass.h"
 #include "Display.h"
 #include "Receiver.h"
+#include "BufferedSerial.h"
 
 enum State {
   INIT_GPS,
@@ -30,7 +31,9 @@ void setup() {
   gps = new GPS();
   compass = new Compass();
   display = new Display();
-  receiver = new Receiver();
+  
+  LORA_SERIAL.begin(9600);
+  receiver = new Receiver(new BufferedSerial(&LORA_SERIAL));
 }
 
 void loop() {

@@ -7,7 +7,7 @@ class BufferedSerial;
 
 class Receiver {
 public:
-  Receiver();
+  Receiver(BufferedSerial*);
   void tick();
   double latitude();
   double longitude();

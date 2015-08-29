@@ -1,12 +1,10 @@
 #include "Receiver.h"
 #include "BufferedSerial.h"
-#include "Configuration.h"
 
 #include <SoftwareSerial.h>
 
-Receiver::Receiver() {
-  LORA_SERIAL.begin(9600);
-  lora = new BufferedSerial(&LORA_SERIAL);
+Receiver::Receiver(BufferedSerial* serial) {
+  lora = serial;
   lastLatitude = -1;
   lastLongitude = -1;
 }
@@ -17,7 +15,6 @@ void Receiver::tick() {
     return;
   }
   
-  DEBUG_PRINTLN(message);
   String rawMessage = String(message);
   int pos = rawMessage.indexOf(':');
   String token = rawMessage.substring(0, pos);
