@@ -4,6 +4,7 @@
 #include "Display.h"
 #include "Receiver.h"
 #include "BufferedSerial.h"
+#include "DirectionalAntenna.h"
 
 enum State {
   INIT_GPS,
@@ -17,6 +18,7 @@ GPS *gps;
 Compass *compass;
 Display *display;
 Receiver *receiver;
+DirectionalAntenna *antenna;
 
 State state = INIT_GPS;
 
@@ -29,8 +31,9 @@ void setup() {
   Serial.begin(9600);
   DEBUG_PRINTLN("Starting Ground Station");
   gps = new GPS();
-  compass = new Compass();
+  //compass = new Compass();
   display = new Display();
+  antenna = new DirectionalAntenna();
   
   LORA_SERIAL.begin(9600);
   receiver = new Receiver(new BufferedSerial(&LORA_SERIAL));
@@ -39,7 +42,7 @@ void setup() {
 void loop() {
   
   if (gpsLoop.check()) {
-    //gps->tick();
+    gps->tick();
   }
   
   if (receiverLoop.check()) {
@@ -48,8 +51,9 @@ void loop() {
   
   if (loop50hz.check()) {
     //compass->tick();
+    antenna->tick();
     
-    /*switch (state) {
+    switch (state) {
       case INIT_GPS:
         display->showWaitingForGPS(gps->numberOfSatellites());
         if (gps->haveFix()) {
@@ -60,10 +64,10 @@ void loop() {
         double distance = gps->distanceTo(receiver->latitude(), receiver->longitude());
         display->showStatus(gps->numberOfSatellites(), distance);
         break;
-    }*/
+    }
   }
   
   if (displayLoop.check()) {
-    display->showLocation(receiver->latitude(), receiver->longitude());
+    //display->showLocation(receiver->latitude(), receiver->longitude());
   }
 }
