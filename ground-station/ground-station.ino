@@ -5,6 +5,7 @@
 #include "Receiver.h"
 #include "BufferedSerial.h"
 #include "DirectionalAntenna.h"
+#include "DataLogger.h"
 
 enum State {
   INIT_GPS,
@@ -34,6 +35,7 @@ void setup() {
   //compass = new Compass();
   display = new Display();
   antenna = new DirectionalAntenna();
+  dataLogger = new DataLogger;
   
   LORA_SERIAL.begin(9600);
   receiver = new Receiver(new BufferedSerial(&LORA_SERIAL));
@@ -47,6 +49,7 @@ void loop() {
   
   if (receiverLoop.check()) {
     receiver->tick();
+    dataLogger->logRawTelemetry(receiver->lastMessage(), receiver->lastMessageNumber());
   }
   
   if (loop50hz.check()) {

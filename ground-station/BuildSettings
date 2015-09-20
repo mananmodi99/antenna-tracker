@@ -1,3 +1,3 @@
-ARDUINO_LIBS="SoftwareSerial Wire LiquidCrystal Servo Metro TinyGPSPlus HMC5883L Common CommonReceiver"
+ARDUINO_LIBS="SoftwareSerial Wire LiquidCrystal Servo SPI SD Metro TinyGPSPlus HMC5883L Common CommonReceiver"
 BOARD_TAG=mega
 BOARD_SUB=atmega2560
