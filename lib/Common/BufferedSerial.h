@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#define BUFFER_SIZE 100
+
 class SoftwareSerial;
 class HardwareSerial;
 
@@ -21,7 +23,7 @@ private:
 
   SoftwareSerial *softwareSerial;
   HardwareSerial *hardwareSerial;
-  char data[50];
+  char data[BUFFER_SIZE];
   byte index;
 };
 
