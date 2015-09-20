@@ -20,6 +20,7 @@ Compass *compass;
 Display *display;
 Receiver *receiver;
 DirectionalAntenna *antenna;
+DataLogger *dataLogger;
 
 State state = INIT_GPS;
 
