@@ -74,6 +74,10 @@ void BufferedSerial::readSoftwareSerial() {
     if (c == MESSAGE_END) {
       break;
     }
+      
+    if (index > BUFFER_SIZE-2) {
+      break;
+    }
         
     data[index] = c;
     index++;
@@ -93,6 +97,10 @@ void BufferedSerial::readHardwareSerial() {
         
     char c = hardwareSerial->read();
     if (c == MESSAGE_END) {
+      break;
+    }
+      
+    if (index > BUFFER_SIZE-2) {
       break;
     }
         
