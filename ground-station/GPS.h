@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <TinyGPS++.h>
 
-class SoftwareSerial;
+class HardwareSerial;
 
 class GPS {
 public:
@@ -15,7 +15,7 @@ public:
   double distanceTo(double latitude, double longitude);
 
 private:
-  SoftwareSerial *serialPort;
+  HardwareSerial *serialPort;
   TinyGPSPlus gpsPlus;
 };
 

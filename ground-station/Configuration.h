@@ -1,7 +1,6 @@
 
 #define LORA_SERIAL Serial1
-#define GPS_RX 11
-#define GPS_TX 12
+#define GPS_SERIAL Serial2
 
 
 #ifndef DEBUG

@@ -1,12 +1,13 @@
 #include "GPS.h"
 #include "Configuration.h"
 
-#include <SoftwareSerial.h>
+#include <HardwareSerial.h>
 
 #define MIN_NUMBER_OF_SATELLITES 6
 
 GPS::GPS() {
-  serialPort = new SoftwareSerial(GPS_RX, GPS_TX);
+  
+  serialPort = &GPS_SERIAL;
   serialPort->begin(9600);
 }
 
