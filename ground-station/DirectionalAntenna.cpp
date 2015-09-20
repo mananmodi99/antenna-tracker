@@ -6,10 +6,10 @@
 
 DirectionalAntenna::DirectionalAntenna() {
   horizontalServo = new Servo;
-  horizontalServo->attach(52);
+  horizontalServo->attach(HORIZONTAL_SERVO);
   
   verticalServo = new Servo;
-  verticalServo->attach(53);
+  verticalServo->attach(VERTICAL_SERVO);
   
   horizontalServo->write(100);
   verticalServo->write(100);
