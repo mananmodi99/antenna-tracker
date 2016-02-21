@@ -13,6 +13,8 @@ public:
   boolean haveFix();
   byte numberOfSatellites();
   double distanceTo(double latitude, double longitude);
+  double latitude();
+  double longitude();
 
 private:
   HardwareSerial *serialPort;

@@ -9,8 +9,8 @@ public:
   void tick();
 
 private:
-  Servo *horizontalServo;
-  Servo *verticalServo;
+  Servo *tiltServo;
+  Servo *panServo;
 };
 
 #endif

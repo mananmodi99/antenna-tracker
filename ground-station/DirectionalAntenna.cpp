@@ -4,23 +4,39 @@
 #include <Arduino.h>
 #include <Servo.h> 
 
+#define TILT_MIN 90
+#define TILT_MAX 179
+
+#define PAN_NEUTRAL 1493
+#define PAN_MIN 2000
+#define PAN_MAX 1050
+
 DirectionalAntenna::DirectionalAntenna() {
-  horizontalServo = new Servo;
-  horizontalServo->attach(HORIZONTAL_SERVO);
+  tiltServo = new Servo;
+  tiltServo->attach(TILT_SERVO);
+  tiltServo->write(TILT_MAX);
   
-  verticalServo = new Servo;
-  verticalServo->attach(VERTICAL_SERVO);
+  panServo = new Servo;
+  panServo->attach(PAN_SERVO);
+  panServo->writeMicroseconds(1500);
   
-  horizontalServo->write(100);
-  verticalServo->write(100);
+  delay(3000);
   
-  horizontalServo->write(0);
-  verticalServo->write(0);
-  delay(500);
+  tiltServo->write(TILT_MIN);
+  panServo->writeMicroseconds(PAN_MIN);
   
-  horizontalServo->write(180);
-  verticalServo->write(180);
+  delay(3000);
+  panServo->writeMicroseconds(PAN_NEUTRAL);
+  
+  delay(3000);
+  tiltServo->write(TILT_MAX);
+  panServo->writeMicroseconds(PAN_MAX);
+  
+  delay(3000);
+  panServo->writeMicroseconds(PAN_NEUTRAL);
 }
 
 void DirectionalAntenna::tick() {
+  tiltServo->write(TILT_MAX);
+  panServo->writeMicroseconds(PAN_NEUTRAL);
 }

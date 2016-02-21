@@ -9,6 +9,7 @@
 
 enum State {
   INIT_GPS,
+  LOCAL_GPS_FIX, // There is a local GPS fix but no telemetry data
   RUNNING
 };
 
@@ -32,10 +33,10 @@ Metro displayLoop = Metro(200); // 5hz loop
 void setup() {
   Serial.begin(9600);
   DEBUG_PRINTLN("Starting Ground Station");
-  gps = new GPS();
+  gps = new GPS;
   //compass = new Compass();
-  display = new Display();
-  antenna = new DirectionalAntenna();
+  display = new Display;
+  antenna = new DirectionalAntenna;
   dataLogger = new DataLogger;
   
   LORA_SERIAL.begin(9600);
@@ -64,6 +65,9 @@ void loop() {
           state = RUNNING;
         }
         break;
+      case LOCAL_GPS_FIX:
+        display->showLocalFix(gps);
+        break;
       case RUNNING:
         double distance = gps->distanceTo(receiver->latitude(), receiver->longitude());
         display->showStatus(gps->numberOfSatellites(), distance);
@@ -72,6 +76,9 @@ void loop() {
   }
   
   if (displayLoop.check()) {
+    
+    display->showTelemetry(receiver);
+    
     //display->showLocation(receiver->latitude(), receiver->longitude());
   }
 }

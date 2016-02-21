@@ -80,3 +80,12 @@ byte GPS::numberOfSatellites() {
 double GPS::distanceTo(double latitude, double longitude) {
   return TinyGPSPlus::distanceBetween(latitude, longitude, gpsPlus.location.lat(), gpsPlus.location.lng());
 }
+
+double GPS::latitude() {
+  return gpsPlus.location.lat();
+}
+
+double GPS::longitude() {
+  return gpsPlus.location.lng();
+}
+

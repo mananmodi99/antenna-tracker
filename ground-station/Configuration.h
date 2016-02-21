@@ -2,8 +2,8 @@
 #define LORA_SERIAL Serial1
 #define GPS_SERIAL Serial2
 
-#define HORIZONTAL_SERVO 48
-#define VERTICAL_SERVO 49
+#define TILT_SERVO 48
+#define PAN_SERVO 49
 
 
 #ifndef DEBUG
