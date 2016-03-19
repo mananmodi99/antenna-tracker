@@ -3,13 +3,13 @@
 
 class LocationProvider {
 public:
-  virtual void tick();
-  virtual boolean isConnected();
-  virtual boolean haveFix();
-  virtual byte numberOfSatellites();
-  virtual double latitude();
-  virtual double longitude();
-  virtual long altitude();
+  virtual void tick() = 0;
+  virtual boolean isConnected() = 0;
+  virtual boolean haveFix() = 0;
+  virtual byte numberOfSatellites() = 0;
+  virtual double latitude() = 0;
+  virtual double longitude() = 0;
+  virtual long altitude() = 0;
 };
 
 #endif
