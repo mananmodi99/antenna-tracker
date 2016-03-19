@@ -1,4 +1,5 @@
-#include "GPS.h"
+#include "LocationProvider.h"
+#include "GPSLocationProvider.h"
 #include "Transmitter.h"
 #include "LED.h"
 #include "Configuration.h"
@@ -8,7 +9,7 @@
 
 #define GPS_CONNECTION_TIMEOUT 3000
 
-GPS *gps;
+LocationProvider *locationProvider;
 Transmitter * transmitter;
 LED *led;
 State state = INIT_GPS;
@@ -20,42 +21,42 @@ Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
   Serial.begin(9600);
-  gps = new GPS(GPS_RX, GPS_TX);
+  locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
 }
 
 void initGPS() { 
   
-  if (gps->isConnected()) {
+  if (locationProvider->isConnected()) {
     DEBUG_PRINT("Waiting for GPS fix, satellites: ");
-    DEBUG_PRINTLN(gps->numberOfSatellites());
-    transmitter->sendMessage(String("WAITGPS:") + gps->numberOfSatellites());
+    DEBUG_PRINTLN(locationProvider->numberOfSatellites());
+    transmitter->sendMessage(String("WAITGPS:") + locationProvider->numberOfSatellites());
   }
   
-  if (!gps->isConnected() && millis() > GPS_CONNECTION_TIMEOUT) {
+  if (!locationProvider->isConnected() && millis() > GPS_CONNECTION_TIMEOUT) {
     state = NO_GPS;
   }
-  else if (gps->haveFix()) {
+  else if (locationProvider->haveFix()) {
     state = RUNNING;
   }
 }
 
 void announceLocation() {
   DEBUG_PRINT("Location: ");
-  DEBUG_PRINTF(gps->latitude(), 6);
+  DEBUG_PRINTF(locationProvider->latitude(), 6);
   DEBUG_PRINT(", ");
-  DEBUG_PRINTF(gps->longitude(), 6);
+  DEBUG_PRINTF(locationProvider->longitude(), 6);
   DEBUG_PRINTLN("");
   
   String message = "L:";
-  message += String(gps->latitude(), 6);
+  message += String(locationProvider->latitude(), 6);
   message += ":";
-  message += String(gps->longitude(), 6);
+  message += String(locationProvider->longitude(), 6);
   message += ":";
-  message += gps->altitude();
+  message += locationProvider->altitude();
   message += ":";
-  message += gps->numberOfSatellites();
+  message += locationProvider->numberOfSatellites();
   
   transmitter->sendMessage(message);
 }
@@ -68,7 +69,7 @@ void announceNoGPS() {
 void loop() {
   
   if (gpsLoop.check()) {
-    gps->tick();
+    locationProvider->tick();
   }
   
   if (ledLoop.check()) {

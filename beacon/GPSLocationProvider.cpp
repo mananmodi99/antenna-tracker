@@ -1,16 +1,16 @@
-#include "GPS.h"
+#include "GPSLocationProvider.h"
 
 #include <SoftwareSerial.h>
 
 #define MIN_NUMBER_OF_SATELLITES 7
 
-GPS::GPS(int rxPin, int txPin) {
+GPSLocationProvider::GPSLocationProvider(int rxPin, int txPin) {
   serialPort = new SoftwareSerial(rxPin, txPin);
   serialPort->begin(9600);
   connected = false;
 }
 
-void GPS::tick() {
+void GPSLocationProvider::tick() {
   serialPort->listen();
   while (serialPort->available()) {
     connected = true;
@@ -18,27 +18,27 @@ void GPS::tick() {
   }
 }
 
-boolean GPS::isConnected() {
+boolean GPSLocationProvider::isConnected() {
   return connected;
 }
 
-boolean GPS::haveFix() {
+boolean GPSLocationProvider::haveFix() {
   return gpsPlus.location.isValid() && gpsPlus.satellites.value() >= MIN_NUMBER_OF_SATELLITES;
 }
 
-byte GPS::numberOfSatellites() {
+byte GPSLocationProvider::numberOfSatellites() {
   return gpsPlus.satellites.value();
 }
 
-double GPS::latitude() {
+double GPSLocationProvider::latitude() {
   return gpsPlus.location.lat();
 }
 
-double GPS::longitude() {
+double GPSLocationProvider::longitude() {
   return gpsPlus.location.lng();
 }
 
-long GPS::altitude() {
+long GPSLocationProvider::altitude() {
   return gpsPlus.altitude.value();
 }
 

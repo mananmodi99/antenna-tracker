@@ -4,11 +4,13 @@
 #include <Arduino.h>
 #include <TinyGPS++.h>
 
+#include "LocationProvider.h"
+
 class SoftwareSerial;
 
-class GPS {
+class GPSLocationProvider: public LocationProvider {
 public:
-  GPS(int rxPin, int txPin);
+  GPSLocationProvider(int rxPin, int txPin);
   void tick();
   boolean isConnected();
   boolean haveFix();
