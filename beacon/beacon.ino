@@ -10,6 +10,10 @@
 
 #define GPS_CONNECTION_TIMEOUT 3000
 
+#if DEBUG
+  SoftwareSerial *debugSerial = new SoftwareSerial(DEBUG_RX, DEBUG_TX);
+#endif
+
 LocationProvider *locationProvider;
 Transmitter * transmitter;
 LED *led;
@@ -21,11 +25,10 @@ Metro gpsLoop = Metro(100); // 1000hz loop
 Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
-  Serial.begin(9600);
   DEBUG_PRINTLN("Antenna Tracker Beacon");
   //locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
   
-  locationProvider = new MavlinkLocationProvider(&Serial1);
+  locationProvider = new MavlinkLocationProvider(&Serial);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
 }
