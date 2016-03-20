@@ -1,17 +1,14 @@
 #include "GPSLocationProvider.h"
 
-#include <SoftwareSerial.h>
-
 #define MIN_NUMBER_OF_SATELLITES 7
 
-GPSLocationProvider::GPSLocationProvider(int rxPin, int txPin) {
-  serialPort = new SoftwareSerial(rxPin, txPin);
+GPSLocationProvider::GPSLocationProvider(HardwareSerial *s) {
+  serialPort = s;
   serialPort->begin(9600);
   connected = false;
 }
 
 void GPSLocationProvider::tick() {
-  serialPort->listen();
   while (serialPort->available()) {
     connected = true;
     gpsPlus.encode(serialPort->read());

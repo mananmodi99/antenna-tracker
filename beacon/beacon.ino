@@ -26,7 +26,7 @@ Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
   DEBUG_PRINTLN("Antenna Tracker Beacon");
-  //locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
+  //locationProvider = new GPSLocationProvider(&Serial);
   
   locationProvider = new MavlinkLocationProvider(&Serial);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
