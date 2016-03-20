@@ -1,11 +1,12 @@
+#include <Metro.h>
+
 #include "LocationProvider.h"
 #include "GPSLocationProvider.h"
+#include "MavlinkLocationProvider.h"
 #include "Transmitter.h"
 #include "LED.h"
 #include "Configuration.h"
 #include "State.h"
-
-#include <Metro.h>
 
 #define GPS_CONNECTION_TIMEOUT 3000
 
@@ -16,12 +17,15 @@ State state = INIT_GPS;
 
 Metro loop1hz = Metro(1000); // 1hz loop
 Metro announceLoop = Metro(500); // 2hz loop
-Metro gpsLoop = Metro(20); // 50hz loop
+Metro gpsLoop = Metro(100); // 1000hz loop
 Metro ledLoop = Metro(50); // 20hz loop
 
 void setup() {
   Serial.begin(9600);
-  locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
+  DEBUG_PRINTLN("Antenna Tracker Beacon");
+  //locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
+  
+  locationProvider = new MavlinkLocationProvider(&Serial1);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
 }
@@ -80,6 +84,11 @@ void loop() {
     case NO_GPS:
       if (announceLoop.check()) {
         announceNoGPS();
+        delay(5000);
+        
+        if (locationProvider->isConnected()) {
+          state = INIT_GPS;
+        }
       }
     
     case INIT_GPS:
