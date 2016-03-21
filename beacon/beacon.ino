@@ -10,10 +10,6 @@
 
 #define GPS_CONNECTION_TIMEOUT 3000
 
-#if DEBUG
-  SoftwareSerial *debugSerial = new SoftwareSerial(DEBUG_RX, DEBUG_TX);
-#endif
-
 LocationProvider *locationProvider;
 Transmitter * transmitter;
 LED *led;
@@ -24,19 +20,32 @@ Metro announceLoop = Metro(500); // 2hz loop
 Metro gpsLoop = Metro(100); // 1000hz loop
 Metro ledLoop = Metro(50); // 20hz loop
 
+
+int freeRam () {
+	extern int __heap_start, *__brkval; 
+	int v; 
+	return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+}
+
 void setup() {
-  DEBUG_PRINTLN("Antenna Tracker Beacon");
-  //locationProvider = new GPSLocationProvider(&Serial);
+  Serial.begin(9600);
+  DEBUG_F_PRINTLN("Antenna Tracker Beacon");
+  //locationProvider = new GPSLocationProvider(GPS_RX, GPS_TX);
   
-  locationProvider = new MavlinkLocationProvider(&Serial);
+  locationProvider = new MavlinkLocationProvider(GPS_RX, GPS_TX);
   transmitter = new Transmitter(LORA_RX, LORA_TX);
   led = new LED(LED_PIN);
+  DEBUG_F_PRINTLN("Setup Done");
+  
+  Serial.print(F("Free ram: "));
+  Serial.print(freeRam());
+  Serial.println(F(" bytes"));
 }
 
 void initGPS() { 
   
   if (locationProvider->isConnected()) {
-    DEBUG_PRINT("Waiting for GPS fix, satellites: ");
+    DEBUG_F_PRINT("Waiting for GPS fix, satellites: ");
     DEBUG_PRINTLN(locationProvider->numberOfSatellites());
     transmitter->sendMessage(String("WAITGPS:") + locationProvider->numberOfSatellites());
   }
@@ -50,11 +59,11 @@ void initGPS() {
 }
 
 void announceLocation() {
-  DEBUG_PRINT("Location: ");
+  DEBUG_F_PRINT("Location: ");
   DEBUG_PRINTF(locationProvider->latitude(), 6);
-  DEBUG_PRINT(", ");
+  DEBUG_F_PRINT(", ");
   DEBUG_PRINTF(locationProvider->longitude(), 6);
-  DEBUG_PRINTLN("");
+  DEBUG_F_PRINTLN("");
   
   String message = "L:";
   message += String(locationProvider->latitude(), 6);
@@ -69,12 +78,11 @@ void announceLocation() {
 }
 
 void announceNoGPS() {
-  DEBUG_PRINTLN("No GPS connected");
+  DEBUG_F_PRINTLN("No GPS connected");
   transmitter->sendMessage("NOGPSCONNECTED");
 }
 
 void loop() {
-  
   if (gpsLoop.check()) {
     locationProvider->tick();
   }

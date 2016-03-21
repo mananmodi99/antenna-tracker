@@ -6,11 +6,11 @@
 
 #include "LocationProvider.h"
 
-class HardwareSerial;
+class SoftwareSerial;
 
 class GPSLocationProvider: public LocationProvider {
 public:
-  GPSLocationProvider(HardwareSerial*);
+  GPSLocationProvider(int rxPin, int txPin);
   void tick();
   boolean isConnected();
   boolean haveFix();
@@ -20,7 +20,7 @@ public:
   long altitude();
 
 private:
-  HardwareSerial *serialPort;
+  SoftwareSerial *serialPort;
   TinyGPSPlus gpsPlus;
   boolean connected;
 };

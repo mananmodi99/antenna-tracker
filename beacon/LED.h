@@ -5,11 +5,11 @@
 
 class LED {
 public:
-  LED(int p);
+  LED(byte p);
   void tick();
 
 private:
-  int pin;
+  byte pin;
   boolean high;
   unsigned long changeTime;
 };

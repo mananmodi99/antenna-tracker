@@ -2,13 +2,20 @@
 #define MAVLINK_LOCATION_PROVIDER_H
 
 #include <Arduino.h>
-#include <mavlink.h>
+
+// https://groups.google.com/forum/embed/#!topic/mavlink/i7tXh9LbtlQ
+#define MAVLINK_COMM_NUM_BUFFERS 1
+#define MAVLINK_MAX_PAYLOAD_LEN 104
+
+#include <common/mavlink.h>
 
 #include "LocationProvider.h"
 
+class SoftwareSerial;
+
 class MavlinkLocationProvider: public LocationProvider {
 public:
-  MavlinkLocationProvider(HardwareSerial*);
+  MavlinkLocationProvider(int rxPin, int txPin);
   void tick();
   boolean isConnected();
   boolean haveFix();
@@ -18,7 +25,7 @@ public:
   long altitude();
 
 private:
-  HardwareSerial *serial;
+  SoftwareSerial *serial;
   bool connected;
   unsigned long lastHeartbeatTime;
   unsigned long lastDataReceiveTime;

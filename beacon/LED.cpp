@@ -5,7 +5,7 @@
 #define WAITING_HIGH_TIME 50
 #define WAITING_LOW_TIME 1000
 
-LED::LED(int p) {
+LED::LED(byte p) {
   pin = p;
   pinMode(pin, OUTPUT);
   high = false;

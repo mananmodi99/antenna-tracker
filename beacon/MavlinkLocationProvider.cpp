@@ -1,10 +1,12 @@
 #include "MavlinkLocationProvider.h"
 #include "Configuration.h"
 
+#include <SoftwareSerial.h>
+
 #define MIN_NUMBER_OF_SATELLITES 7
 
-MavlinkLocationProvider::MavlinkLocationProvider(HardwareSerial *s) {
-  serial = s;
+MavlinkLocationProvider::MavlinkLocationProvider(int rxPin, int txPin) {
+  serial = new SoftwareSerial(rxPin, txPin);
   serial->begin(57600);
   connected = false;
   lastHeartbeatTime = 0;
@@ -14,7 +16,7 @@ MavlinkLocationProvider::MavlinkLocationProvider(HardwareSerial *s) {
 }
 
 void MavlinkLocationProvider::tick() {
-  
+  serial->listen();
   readMessages();
   
   unsigned long currentTime = millis();
@@ -48,9 +50,6 @@ void MavlinkLocationProvider::readMessages() {
           
         case MAVLINK_MSG_ID_STATUSTEXT:
           handleStatusMessage(&msg);
-          break;
-          
-        case MAVLINK_MSG_ID_REQUEST_DATA_STREAM:
           break;
       }
     }
@@ -92,14 +91,14 @@ void MavlinkLocationProvider::handleHeartbeat(mavlink_message_t *msg) {
   if (!connected) {
     connected = true;
   }
-  DEBUG_PRINTLN("MAVLINK: Heartbeat");
+  DEBUG_F_PRINTLN("MAVLINK: Heartbeat");
   systemId    = (*msg).sysid;
   componentId = (*msg).compid;
   lastHeartbeatTime = millis();
 }
 
 void MavlinkLocationProvider::handleGPSInfo(mavlink_message_t *msg) {
-  DEBUG_PRINTLN("MAVLINK: GPS Info");
+  DEBUG_F_PRINTLN("MAVLINK: GPS Info");
   mavlinkLatitude =  mavlink_msg_gps_raw_int_get_lat(msg) / 10000000.0f;
   mavlinkLongitude =  mavlink_msg_gps_raw_int_get_lon(msg) / 10000000.0f;
   mavlinkNumberOfSatellites = (uint8_t) mavlink_msg_gps_raw_int_get_satellites_visible(msg);
@@ -123,7 +122,7 @@ void MavlinkLocationProvider::sendMessage(mavlink_message_t* msg) {
 
 void MavlinkLocationProvider::requestData() {
   
-  //DEBUG_PRINTLN("MAVLINK: Requesting for data");
+  DEBUG_PRINTLN("MAVLINK: Requesting for data");
   
   mavlink_message_t msg;
   // first disable all
