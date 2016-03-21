@@ -21,4 +21,6 @@
   #define DEBUG_PRINTF(x, y)
   #define DEBUG_PRINTDEC(x)
   #define DEBUG_PRINTLN(x) 
+  #define DEBUG_F_PRINT(x)
+  #define DEBUG_F_PRINTLN(x)
 #endif
