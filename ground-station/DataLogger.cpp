@@ -60,7 +60,7 @@ void DataLogger::logRawTelemetry(String message, long number) {
     return;
   }
   lastMessageNumber = number;
-
+  DEBUG_PRINTLN(message);
   rawTelemetryInfoFile.println(message + " - NR " + lastMessageNumber);
   rawTelemetryInfoFile.flush();
 }

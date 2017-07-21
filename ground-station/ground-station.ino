@@ -36,7 +36,7 @@ void setup() {
   gps = new GPS;
   //compass = new Compass();
   display = new Display;
-  antenna = new DirectionalAntenna;
+  //antenna = new DirectionalAntenna;
   dataLogger = new DataLogger;
   
   LORA_SERIAL.begin(9600);
@@ -56,7 +56,7 @@ void loop() {
   
   if (loop50hz.check()) {
     //compass->tick();
-    antenna->tick();
+    //antenna->tick();
     
     switch (state) {
       case INIT_GPS:

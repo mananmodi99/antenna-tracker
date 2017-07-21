@@ -11,6 +11,7 @@ public:
 private:
   Servo *tiltServo;
   Servo *panServo;
+  void test();
 };
 
 #endif

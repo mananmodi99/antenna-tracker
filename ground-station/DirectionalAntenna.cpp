@@ -7,8 +7,8 @@
 #define TILT_MIN 90
 #define TILT_MAX 179
 
-#define PAN_NEUTRAL 1493
-#define PAN_MIN 2000
+#define PAN_NEUTRAL 1525
+#define PAN_MIN 2073
 #define PAN_MAX 1050
 
 DirectionalAntenna::DirectionalAntenna() {
@@ -19,9 +19,16 @@ DirectionalAntenna::DirectionalAntenna() {
   panServo = new Servo;
   panServo->attach(PAN_SERVO);
   panServo->writeMicroseconds(1500);
-  
-  delay(3000);
-  
+  delay(100);
+  panServo->writeMicroseconds(PAN_NEUTRAL);
+}
+
+void DirectionalAntenna::tick() {
+  //tiltServo->write(TILT_MAX);
+  //panServo->writeMicroseconds(PAN_NEUTRAL);
+}
+
+void DirectionalAntenna::test() {
   tiltServo->write(TILT_MIN);
   panServo->writeMicroseconds(PAN_MIN);
   
@@ -33,10 +40,5 @@ DirectionalAntenna::DirectionalAntenna() {
   panServo->writeMicroseconds(PAN_MAX);
   
   delay(3000);
-  panServo->writeMicroseconds(PAN_NEUTRAL);
-}
-
-void DirectionalAntenna::tick() {
-  tiltServo->write(TILT_MAX);
   panServo->writeMicroseconds(PAN_NEUTRAL);
 }
